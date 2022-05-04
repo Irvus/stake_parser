@@ -4,7 +4,7 @@ import time
 import json
 import requests
 
-cerberus_link = "https://api.cerberus.zone:1317/staking/validators/cerberusvaloper1xjgspyv73d3k3ewygu0v2gcwwplwxkxg03reqy")
+cerberus_link = "https://api.cerberus.zone:1317/staking/validators/cerberusvaloper1xjgspyv73d3k3ewygu0v2gcwwplwxkxg03reqy"
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 
@@ -13,6 +13,7 @@ REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing requ
 @REQUEST_TIME.time()
 def process_request(t):
     r = requests.get(cerberus_link).json()
+    print(float(r.get('result').get('delegator_shares')))
     time.sleep(t)
 
 
