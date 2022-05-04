@@ -1,4 +1,4 @@
-from prometheus_client import start_http_server, Summary
+from prometheus_client import start_http_server, Gauge, Summary
 import random
 import time
 import json
@@ -6,14 +6,14 @@ import requests
 
 cerberus_link = "https://api.cerberus.zone:1317/staking/validators/cerberusvaloper1xjgspyv73d3k3ewygu0v2gcwwplwxkxg03reqy"
 # Create a metric to track time spent and requests made.
-REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+bounded_tokens = Gauge('my_inprogress_requests', 'Description of gauge')
 
 
 # Decorate function with metric.
-@REQUEST_TIME.time()
+@bounded_tokens.track_inprogress()
 def process_request(t):
     r = requests.get(cerberus_link).json()
-    print(float(r.get('result').get('delegator_shares')))
+    bounded_tokens.set_function(lambda: int(r.get('result').get('tokens')))
     time.sleep(t)
 
 
