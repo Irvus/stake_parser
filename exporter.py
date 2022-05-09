@@ -12,7 +12,7 @@ cerberus_link = "https://api.cerberus.zone:1317/staking/validators" \
 ki_link = "https://api-mainnet.blockchain.ki/staking/validators/kivaloper19seaxuh9wp3zum42w6flrjsr5raptxhy3l8qvw"
 
 
-i = Info('mintscan_metric', 'Mintscan info', ['chain'])
+i = Info('coingecko_metric', 'Mintscan info', ['chain'])
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
 
@@ -44,17 +44,22 @@ def job():
         try:
             bound_tokens = process_request(10, validator['url'], validator['name'])
             print(bound_tokens)
-        except Exception as ex:
-            i.labels(chain=k['name']).info({
-                f"deledators_count": delegators_count,
-                f"rank": -1000,
-                f"status": 0,
-                f"uptime": 0})
+
+            i.labels(chain=validator['name']).info({
+                f"staked tokens": bound_tokens['staked tokens'],
+                f"turnover": bound_tokens['turnover'],
+            })
+        except Exception:
+            i.labels(chain=validator['name']).info({
+                f"staked tokens": -1,
+                f"turnover": -1
+            })
+
 
 if __name__ == '__main__':
     t = 10
     start_http_server(8000)
-    cerberus_bounded_tokens = Info('my_inprogress_requests', 'cerberus')
+    #cerberus_bounded_tokens = Info('my_inprogress_requests', 'cerberus')
     #ki_bounded_tokens = Info('my_inprogress_requests', 'ki')
     while True:
         job()
