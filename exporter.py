@@ -21,6 +21,9 @@ validators = [
     {'name': 'ixo',
      'url': "https://impacthub.ixo.world/rest/staking/validators/ixovaloper12g6xke0lu758u8dtan8efsdhe2xxwxwh4lrjax"
      },
+    {'name': 'desmos',
+     'url': "https://api-desmos.cosmostation.io/v1/staking/validator/desmosvaloper1zngdx77g9ywnwmwpwvj9w2eqcs6fhw78gn02d8"
+     }
 ]
 
 
