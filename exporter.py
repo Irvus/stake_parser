@@ -70,7 +70,7 @@ def job():
 
 if __name__ == '__main__':
     t = 3600
-    start_http_server(8000)
+    start_http_server(9879)
 
     while True:
         job()
